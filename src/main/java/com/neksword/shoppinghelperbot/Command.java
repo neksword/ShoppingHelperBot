@@ -1,16 +1,20 @@
 package com.neksword.shoppinghelperbot;
 
 import lombok.Getter;
+import org.springframework.stereotype.Component;
 
 @Getter
-public enum Operations {
+public enum Command {
+    START("start"),
     INCREMENT("increment"),
     DECREMENT("decrement"),
-    DELETE("delete");
+    DELETE("delete"),
+    EXPORT("export"),
+    ADD("add");
 
     private final String operation;
 
-    Operations(String operation) {
+    Command(String operation) {
         this.operation = operation;
     }
 }
