@@ -32,5 +32,7 @@ public class Good {
     public void decrementQuantity() {
         this.quantity--;
     }
-
+    public Float total() {
+        return this.quantity * this.price;
+    }
 }
