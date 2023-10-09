@@ -9,9 +9,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.UUID;
 
-@Component("deleteHandler")
-public class DeleteCommandHandler extends BaseHandler{
-    public DeleteCommandHandler(@Qualifier("exportHandler") CommandHandler handler) {
+@Component("addGoodHandler")
+public class AddGoodCommandHandler extends BaseHandler {
+
+    public AddGoodCommandHandler(@Qualifier("defaultHandler") CommandHandler handler) {
         super(handler);
     }
 
@@ -20,10 +21,13 @@ public class DeleteCommandHandler extends BaseHandler{
         if (update.hasCallbackQuery()) {
             final var callbackQuery = update.getCallbackQuery();
             final var callbackQueryData = new CallbackQueryData(callbackQuery);
-            if (callbackQueryData.getCommandAsString().equals(Command.DELETE.getOperation())) {
-                final var answerQuery = AnswerCallbackQuery.builder().callbackQueryId(callbackQueryData.getCallbackQueryId()).build();
-                final var shoppingList = bot.getShoppingListMap().get(UUID.fromString(callbackQueryData.getShoppingListIdAsString()));
-                shoppingList.removeGoodByName(callbackQueryData.getPayload());
+            if (callbackQueryData.getCommandAsString().equals(Command.ADD.getOperation())) {
+                final var answerQuery = AnswerCallbackQuery.builder()
+                                                           .callbackQueryId(callbackQueryData.getCallbackQueryId())
+                                                           .build();
+                final var shoppingList = bot.getShoppingListMap()
+                                            .get(UUID.fromString(callbackQueryData.getShoppingListIdAsString()));
+                shoppingList.addGood(new Good());
                 final var editMessage = EditMessageText.builder()
                                                        .messageId(callbackQueryData.getMessageId())
                                                        .replyMarkup(ManagementKeyboard.inlineKeyboard(shoppingList))
@@ -34,6 +38,5 @@ public class DeleteCommandHandler extends BaseHandler{
                 bot.execute(editMessage);
             } else nextHandler.handle(update, bot);
         }
-
     }
 }

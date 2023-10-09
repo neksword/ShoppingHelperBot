@@ -1,7 +1,6 @@
 package com.neksword.shoppinghelperbot;
 
 import lombok.Getter;
-import org.springframework.stereotype.Component;
 
 @Getter
 public enum Command {

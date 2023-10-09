@@ -8,7 +8,7 @@ public class CallbackQueryData {
 
     private final String shoppingListIdAsString;
     private final String commandAsString;
-    private final String goodNameAsString;
+    private final String payload;
     private final String callbackQueryId;
     private final Integer messageId;
     private final Long chatId;
@@ -18,7 +18,7 @@ public class CallbackQueryData {
         final var data = callbackQuery.getData().split("_");
         this.shoppingListIdAsString = data[0];
         this.commandAsString = data[1];
-        this.goodNameAsString = data[2];
+        this.payload = data[2];
         this.callbackQueryId = callbackQuery.getId();
         this.messageId = callbackQuery.getMessage().getMessageId();
         this.chatId = callbackQuery.getMessage().getChatId();

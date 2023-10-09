@@ -25,7 +25,7 @@ public class DecrementCommandHandler extends BaseHandler {
                 final var shoppingList = bot.getShoppingListMap().get(UUID.fromString(callbackQueryData.getShoppingListIdAsString()));
                 shoppingList.getGoodsList()
                             .stream()
-                            .filter(good -> good.getName().equals(callbackQueryData.getGoodNameAsString()))
+                            .filter(good -> good.getName().equals(callbackQueryData.getPayload()))
                             .findFirst()
                             .get()
                             .decrementQuantity();
