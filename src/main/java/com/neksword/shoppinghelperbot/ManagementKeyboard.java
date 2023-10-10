@@ -20,14 +20,14 @@ public class ManagementKeyboard {
         final var shoppingListIdAsString = shoppingList.getId().toString();
         final var exportButton = InlineKeyboardButton.builder()
                                                      .text("Export to PDF")
-                                                     .callbackData(join("_", shoppingListIdAsString, "export"))
+                                                     .callbackData(join("_", shoppingListIdAsString, Command.EXPORT.getOperation(), "export"))
                                                      .build();
         exportButtonRow.add(exportButton);
         final var addGoodButtonRow = new LinkedList<InlineKeyboardButton>();
         final var addGoodButton = InlineKeyboardButton.builder()
-                                              .text("Add a good")
-                                              .callbackData(join("_", shoppingListIdAsString, Command.ADD.getOperation()))
-                                              .build();
+                                                      .text("Add a good")
+                                                      .callbackData(join("_", shoppingListIdAsString, Command.ADD.getOperation(), "new"))
+                                                      .build();
         addGoodButtonRow.add(addGoodButton);
         keyboard.add(exportButtonRow);
         keyboard.add(addGoodButtonRow);
@@ -47,7 +47,7 @@ public class ManagementKeyboard {
                                                         .build();
         final var quantityButton = InlineKeyboardButton.builder()
                                                        .text(good.getQuantity().toString())
-                                                       .callbackData(join("_", shoppingListIdAsString))
+                                                       .callbackData(join("_", shoppingListIdAsString, "empty"))
                                                        .build();
         final var decrementButton = InlineKeyboardButton.builder()
                                                         .text("-")

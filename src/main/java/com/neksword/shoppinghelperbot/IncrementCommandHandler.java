@@ -25,7 +25,7 @@ public class IncrementCommandHandler extends BaseHandler {
             if (callbackQueryData.getCommandAsString().equals(Command.INCREMENT.getOperation())) {
                 final var answerQuery = AnswerCallbackQuery.builder().callbackQueryId(callbackQueryData.getCallbackQueryId()).build();
                 final var shoppingList = bot.getShoppingListMap().get(UUID.fromString(callbackQueryData.getShoppingListIdAsString()));
-                shoppingList.getGoodsList().stream().filter(good -> good.getName().equals(callbackQueryData.getGoodNameAsString())).findFirst().get().incrementQuantity();
+                shoppingList.getGoodsList().stream().filter(good -> good.getName().equals(callbackQueryData.getPayload())).findFirst().get().incrementQuantity();
                 final var editMessage = EditMessageText.builder()
                                                        .messageId(callbackQueryData.getMessageId())
                                                        .replyMarkup(ManagementKeyboard.inlineKeyboard(shoppingList))
