@@ -37,9 +37,9 @@ jobs:
     - name: Set up FireBase CLI
       run: curl -sL https://firebase.tools | bash
     - name: Login to FireBase
-      run: firebase login:ci --token ${{secrets.FIREBASE_TOKEN}}
+      run: firebase login:ci --token "${{secrets.FIREBASE_TOKEN}}"
     - name: Init firebase project
-      run: firebase init
+      run: firebase init --token "${{secrets.FIREBASE_TOKEN}}"
   deploy:
     runs-on: ubuntu-latest
     needs: [build, set-up-firebase]
