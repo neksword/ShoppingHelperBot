@@ -37,9 +37,7 @@ jobs:
     - name: Set up FireBase CLI
       run: curl -sL https://firebase.tools | bash
     - name: Login to FireBase
-      env:
-        FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
-      run: firebase login:ci
+      run: firebase login:ci --token ${{secrets.FIREBASE_TOKEN}}
     - name: Init firebase project
       run: firebase init
   deploy:
