@@ -38,8 +38,8 @@ jobs:
       run: curl -sL https://firebase.tools | bash
     - name: Login to FireBase
       env:
-        FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
-      run: firebase login:ci --interactive
+        GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+      run: firebase login:ci
     - name: Init firebase project
       run: firebase init
   deploy:
