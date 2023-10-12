@@ -38,7 +38,7 @@ jobs:
       run: curl -sL https://firebase.tools | bash
     - name: Login to FireBase
       env:
-        firebase_token: ${{secrets.FIREBASE_TOKEN}}
+        FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
       run: firebase login:ci
     - name: Init firebase project
       run: firebase init
