@@ -31,3 +31,13 @@ jobs:
       env: 
         bot_token: ${{ secrets.BOT_TOKEN }}
       run: mvn -B package --file pom.xml
+  set-up-firebase-and-deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Set up FireBase CLI
+      run: curl -sL https://firebase.tools | bash
+    - name: Init firebase directory
+      run: firebase init --token "${{secrets.FIREBASE_TOKEN}}"
+    - name: Deploy project to FireBase
+      run: firebase deploy
