@@ -1,5 +1,6 @@
 package com.neksword.shoppinghelperbot;
 
+import com.neksword.shoppinghelperbot.handlers.CommandHandlerChain;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,14 +17,14 @@ import java.util.UUID;
 @Getter
 public class ShoppingHelperBot extends TelegramLongPollingBot {
 
-    private final BaseHandler baseHandler;
+    private final CommandHandlerChain handlerChain;
+    private final Map<UUID, ShoppingList> shoppingListMap = new HashMap<>();
 
-    public ShoppingHelperBot(@Value("${bot.token}") String botToken, BaseHandler baseHandler) {
+    public ShoppingHelperBot(@Value("${bot.token}") String botToken, CommandHandlerChain handlerChain) {
         super(botToken);
-        this.baseHandler = baseHandler;
+        this.handlerChain = handlerChain;
     }
 
-    private final Map<UUID, ShoppingList> shoppingListMap = new HashMap<>();
     @Override
     public void onUpdateReceived(Update update) {
         System.out.println(update.toString());
@@ -38,7 +39,7 @@ public class ShoppingHelperBot extends TelegramLongPollingBot {
             }
         } else {
             try {
-                baseHandler.handle(update, this);
+                handlerChain.handle(update, this);
             } catch (TelegramApiException e) {
                 throw new RuntimeException(e);
             }

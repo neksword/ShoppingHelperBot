@@ -1,6 +1,9 @@
-package com.neksword.shoppinghelperbot;
+package com.neksword.shoppinghelperbot.handlers;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.neksword.shoppinghelperbot.CallbackQueryData;
+import com.neksword.shoppinghelperbot.Command;
+import com.neksword.shoppinghelperbot.ManagementKeyboard;
+import com.neksword.shoppinghelperbot.ShoppingHelperBot;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -9,23 +12,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.UUID;
 
-@Component("incrementHandler")
-public class IncrementCommandHandler extends BaseHandler {
-
-
-    public IncrementCommandHandler(@Qualifier("decrementHandler") CommandHandler handler) {
-        super(handler);
-    }
+@Component("deleteHandler")
+public class DeleteCommandHandler implements CommandHandler {
 
     @Override
     public void handle(Update update, ShoppingHelperBot bot) throws TelegramApiException {
         if (update.hasCallbackQuery()) {
             final var callbackQuery = update.getCallbackQuery();
             final var callbackQueryData = new CallbackQueryData(callbackQuery);
-            if (callbackQueryData.getCommandAsString().equals(Command.INCREMENT.getOperation())) {
+            if (callbackQueryData.getCommandAsString().equals(Command.DELETE.getOperation())) {
                 final var answerQuery = AnswerCallbackQuery.builder().callbackQueryId(callbackQueryData.getCallbackQueryId()).build();
                 final var shoppingList = bot.getShoppingListMap().get(UUID.fromString(callbackQueryData.getShoppingListIdAsString()));
-                shoppingList.getGoodsList().stream().filter(good -> good.getName().equals(callbackQueryData.getPayload())).findFirst().get().incrementQuantity();
+                shoppingList.removeGoodByName(callbackQueryData.getPayload());
                 final var editMessage = EditMessageText.builder()
                                                        .messageId(callbackQueryData.getMessageId())
                                                        .replyMarkup(ManagementKeyboard.inlineKeyboard(shoppingList))
@@ -34,7 +32,8 @@ public class IncrementCommandHandler extends BaseHandler {
                                                        .build();
                 bot.execute(answerQuery);
                 bot.execute(editMessage);
-            } else nextHandler.handle(update, bot);
+            }
         }
+
     }
 }

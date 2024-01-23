@@ -1,7 +1,9 @@
-package com.neksword.shoppinghelperbot;
+package com.neksword.shoppinghelperbot.handlers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.neksword.shoppinghelperbot.CallbackQueryData;
+import com.neksword.shoppinghelperbot.Command;
+import com.neksword.shoppinghelperbot.Exporter;
+import com.neksword.shoppinghelperbot.ShoppingHelperBot;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
@@ -12,13 +14,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.UUID;
 
 @Component("exportHandler")
-public class ExportCommandHandler extends BaseHandler {
+public class ExportCommandHandler implements CommandHandler{
 
     private final Exporter exporter;
 
-    @Autowired(required = false)
-    public ExportCommandHandler(@Qualifier("addGoodHandler") CommandHandler handler, Exporter exporter) {
-        super(handler);
+    public ExportCommandHandler(Exporter exporter) {
         this.exporter = exporter;
     }
 
@@ -39,7 +39,7 @@ public class ExportCommandHandler extends BaseHandler {
                                            .build();
                 bot.execute(answerCallbackQuery);
                 bot.execute(sendDocument);
-            } else nextHandler.handle(update, bot);
+            }
         }
     }
 }
